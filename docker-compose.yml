@@ -1,0 +1,21 @@
+version: '3.4'
+
+networks:
+  mysql8:
+
+services:
+ # mysql
+  mysql8-service:
+    image: mysql:8
+    container_name: mysql8-projectdb
+    ports:
+      - "4306:3306"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - mysql8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
