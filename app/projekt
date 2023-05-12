@@ -1,0 +1,35 @@
+petrol:
+- id, INT, Klucz główny, unikalny identyfikator typu paliwa
+- name, VARCHAR, Unikalna nazwa typu paliwa
+- price, decimal, Cena paliwa
+
+petrol_history
+    id
+    price
+    petrol_id
+    time
+
+storage:
+- id, INT, Klucz główny, unikalny identyfikator zbiornika
+- petrol_id, INT, Klucz obcy, odnoszący się do petrol
+- volume, FLOAT, Pojemność zbiornika
+- current_volume, FLOAT, Aktualna objętość paliwa w zbiorniku
+
+distributor:
+- id, INT, Klucz główny, unikalny identyfikator dystrybutora
+- petrol_id, INT, Klucz obcy, odnoszący się do TypyPaliwa
+
+transaction:
+- id, INT, Klucz główny, unikalny identyfikator transakcji
+- distributor_id, INT, Klucz obcy, odnoszący się do Dystrybutorów
+- client, VARCHAR, Nr rejestracji
+- litreage, FLOAT, Ilość zakupionego paliwa
+- time, DATETIME, Data i czas transakcji
+
+transaction_history:
+- id, INT, Klucz główny, unikalny identyfikator transakcji
+- client, VARCHAR, Nr rejestracji
+- litreage, FLOAT, Ilość zakupionego paliwa
+- time, DATETIME, Data i czas transakcji
+- petrol_history_id
+- status int, czy oplacoone, skradzione
