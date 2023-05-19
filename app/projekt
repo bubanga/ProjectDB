@@ -27,3 +27,18 @@ transaction:
     client, VARCHAR, Nr rejestracji
     litreage, FLOAT, Ilość zakupionego paliwa
     time, DATETIME, Data i czas transakcji
+
+alter view v_pending_transactions as
+    select
+        t.id,
+        t.litreage * ph.price * IF(t.car_id, (select 1-discount from car c where c.id = t.car_id), 1) as 'price',
+        t.litreage,
+        t.time,
+        p.name as 'position',
+        p2.name as 'petrol'
+    from transaction t
+             join distributor d on d.id = t.distributor_id
+             join position p on p.id = d.position_id
+             join petrol_history ph on ph.id = t.petrol_history_id
+             join petrol p2 on p2.id = d.petrol_id
+    where status = 0;
