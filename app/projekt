@@ -28,6 +28,13 @@ transaction:
     litreage, FLOAT, Ilość zakupionego paliwa
     time, DATETIME, Data i czas transakcji
 
+CREATE TRIGGER after_transaction_history_insert AFTER INSERT ON transaction_history
+    FOR EACH ROW
+BEGIN
+    SET @petrol_id = (SELECT petrol_id FROM petrol_history WHERE id = NEW.petrol_history_id);
+    UPDATE petrol SET current_volume = current_volume-NEW.litreage WHERE id = @petrol_id;
+END;
+
 alter view v_pending_transactions as
     select
         t.id,
